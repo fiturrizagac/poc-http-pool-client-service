@@ -1,7 +1,9 @@
 package com.frabef.httppoolclient.config;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -17,17 +19,19 @@ public class HttpClientConfig {
     public PoolingHttpClientConnectionManager poolingHttpClientConnectionManager() {
         PoolingHttpClientConnectionManager result = new PoolingHttpClientConnectionManager();
         result.setMaxTotal(20);
+        result.setDefaultMaxPerRoute(20);
+
+        result.setMaxPerRoute(new HttpRoute(new HttpHost("sleepy-escarpment-39046.herokuapp.com",443,"https")),20);
         return result;
     }
 
     @Bean
     public RequestConfig requestConfig() {
-        RequestConfig result = RequestConfig.custom()
+        return RequestConfig.custom()
             .setConnectionRequestTimeout(3000)
             .setConnectTimeout(3000)
             .setSocketTimeout(3000)
             .build();
-        return result;
     }
 
     @Bean
