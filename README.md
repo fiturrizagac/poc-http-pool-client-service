@@ -1,1 +1,1 @@
-# poc-http-pool-delay-service
+# poc-http-pool-client-service

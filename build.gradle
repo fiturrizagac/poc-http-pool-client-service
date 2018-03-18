@@ -25,7 +25,8 @@ repositories {
 
 dependencies {
 
-    compile "org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE"
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
     compileOnly 'org.projectlombok:lombok:1.16.20'
 
     // This dependency is found on compile classpath of this component and consumers.
@@ -36,4 +37,4 @@ dependencies {
 }
 
 // Define the main class for the application
-mainClassName = 'com.frabef.delayapp.App'
+mainClassName = 'com.frabef.httppoolclient.App'
