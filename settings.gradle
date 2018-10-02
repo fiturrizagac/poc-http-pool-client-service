@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'poc-http-pool-delay-service'
+rootProject.name = 'poc-http-pool-client-service'

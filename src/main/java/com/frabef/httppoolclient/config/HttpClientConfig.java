@@ -48,7 +48,8 @@ public class HttpClientConfig {
     public RestTemplate restTemplate(HttpClient httpClient) {
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(httpClient);
-        return new RestTemplate(requestFactory);
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        return restTemplate;
     }
 
 }
