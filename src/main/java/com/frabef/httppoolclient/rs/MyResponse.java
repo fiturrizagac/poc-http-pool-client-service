@@ -13,5 +13,5 @@ public class MyResponse {
     private String message;
     private Date start;
     private Date end;
-
+    private long duration;
 }

@@ -21,7 +21,7 @@ public class HttpClientConfig {
         result.setMaxTotal(20);
         result.setDefaultMaxPerRoute(20);
 
-        result.setMaxPerRoute(new HttpRoute(new HttpHost("sleepy-escarpment-39046.herokuapp.com",443,"https")),20);
+        //result.setMaxPerRoute(new HttpRoute(new HttpHost("sleepy-escarpment-39046.herokuapp.com",443,"https")),20);
         return result;
     }
 

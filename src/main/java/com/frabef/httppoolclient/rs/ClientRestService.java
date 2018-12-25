@@ -1,11 +1,9 @@
 package com.frabef.httppoolclient.rs;
 
-import static com.frabef.httppoolclient.rs.ClientRestService.Counter.increase;
-
 import java.net.URI;
+import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.java.Log;
 
+
+@Log
 @RestController
 public class ClientRestService {
 
-    Logger log = LoggerFactory.getLogger("customfrabef");
+    private final static Gson GSON = new Gson();
 
 
     private RestTemplate restTemplate;
@@ -26,6 +27,7 @@ public class ClientRestService {
     @Autowired
     public ClientRestService(RestTemplate restTemplate) {
         this.restTemplate = new RestTemplate();
+        //this.restTemplate = restTemplate;
     }
 
     @GetMapping("/client")
@@ -54,6 +56,27 @@ public class ClientRestService {
         }
 
 
+    }
+
+    @GetMapping("/log")
+    public ResponseEntity<CustomResponse> log() {
+
+        //log.info("llamado " + increase());
+
+        try {
+            URI uri = URI.create("https://floating-sierra-20140.herokuapp.com");
+            RequestEntity request = RequestEntity.get(uri).build();
+
+            Date startTime = new Date();
+            ResponseEntity<MyResponse> response = restTemplate.exchange(request, MyResponse.class);
+            long duration = new Date().getTime() - startTime.getTime();
+            CustomResponse customResponse = new CustomResponse(duration, response.getBody());
+            log.info(GSON.toJson(customResponse));
+            return ResponseEntity.ok(customResponse);
+        } catch (HttpStatusCodeException e) {
+            log.info(e.getRawStatusCode()+"");
+            throw e;
+        }
     }
 
     public static class Counter {
