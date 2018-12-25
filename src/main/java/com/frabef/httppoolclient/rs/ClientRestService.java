@@ -27,7 +27,7 @@ public class ClientRestService {
     @Autowired
     public ClientRestService(RestTemplate restTemplate) {
         this.restTemplate = new RestTemplate();
-        //this.restTemplate = restTemplate;
+        // this.restTemplate = restTemplate;
     }
 
     @GetMapping("/client")

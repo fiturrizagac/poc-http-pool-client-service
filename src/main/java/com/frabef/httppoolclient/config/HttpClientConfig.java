@@ -1,9 +1,9 @@
 package com.frabef.httppoolclient.config;
 
-import org.apache.http.HttpHost;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.conn.routing.HttpRoute;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -16,11 +16,10 @@ import org.springframework.web.client.RestTemplate;
 public class HttpClientConfig {
 
     @Bean
-    public PoolingHttpClientConnectionManager poolingHttpClientConnectionManager() {
+    public HttpClientConnectionManager httpClientConnectionManager() {
         PoolingHttpClientConnectionManager result = new PoolingHttpClientConnectionManager();
         result.setMaxTotal(20);
         result.setDefaultMaxPerRoute(20);
-
         //result.setMaxPerRoute(new HttpRoute(new HttpHost("sleepy-escarpment-39046.herokuapp.com",443,"https")),20);
         return result;
     }
@@ -35,19 +34,19 @@ public class HttpClientConfig {
     }
 
     @Bean
-    public CloseableHttpClient httpClient(PoolingHttpClientConnectionManager poolingHttpClientConnectionManager, RequestConfig requestConfig) {
+    public HttpClient httpClient() {
         CloseableHttpClient result = HttpClientBuilder
             .create()
-            .setConnectionManager(poolingHttpClientConnectionManager)
-            .setDefaultRequestConfig(requestConfig)
+            .setConnectionManager(this.httpClientConnectionManager())
+            .setDefaultRequestConfig(this.requestConfig())
             .build();
         return result;
     }
 
     @Bean
-    public RestTemplate restTemplate(HttpClient httpClient) {
+    public RestTemplate restTemplate() {
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-        requestFactory.setHttpClient(httpClient);
+        requestFactory.setHttpClient(this.httpClient());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         return restTemplate;
     }
